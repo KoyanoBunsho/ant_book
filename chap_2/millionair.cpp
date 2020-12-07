@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+const int MAX_M = 10;
+int M, X;
+double P;
+double nxt[1000005];
+double prv[1000005];
+double dp[2][(1<<MAX_M)+1];
+
+int main(){
+    cin >> M >> P >> X;
+    int n=1<<M;
+    double *prv=dp[0], *nxt=dp[1];
+    memset(prv, 0, sizeof(double)*(n+1));
+    prv[n]=1.0;
+    for(int r=0; r<M; r++){
+        for(int i=0; i<=n; i++){
+            int jub = min(i, n-i);
+            double t=0.0;
+            for(int j=0; j<=jub; j++){
+                t=max(t, P*prv[i+j]+(1-P)*prv[i-j]);
+            }
+            nxt[i]=t;
+        }
+        swap(prv, nxt);
+    }
+    int i=(ll)X*n/1000000;
+    cout << prv[i];
+}
